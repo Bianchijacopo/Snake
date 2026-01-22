@@ -40,10 +40,10 @@ function startGamePlay() {
 }
 
 function changeDirection(e) {
-  if (e.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
-  else if (e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
-  else if (e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
-  else if (e.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
+  if (e.key === "w" && direction !== "DOWN") direction = "UP";
+  else if (e.key === "s" && direction !== "UP") direction = "DOWN";
+  else if (e.key === "a" && direction !== "RIGHT") direction = "LEFT";
+  else if (e.key === "d" && direction !== "LEFT") direction = "RIGHT";
 }
 
 function randomFood() {

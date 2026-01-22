@@ -1,50 +1,164 @@
+/* Page base + animated purple background */
+* { box-sizing: border-box; }
 body {
-  background: #111;
-  color: white;
-  font-family: Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #3d2666, #2d1b4e, #1a0f30, #0f0818);
+  background-size: 400% 400%;
+  animation: flashy-bg 12s ease infinite;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Smooth moving 'wave' overlay made of blurred color blobs */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(600px 300px at 10% 20%, rgba(155,125,255,0.28), transparent 40%),
+    radial-gradient(500px 260px at 80% 80%, rgba(145,100,230,0.30), transparent 38%),
+    radial-gradient(700px 360px at 50% 50%, rgba(200,160,255,0.16), transparent 50%);
+  background-repeat: no-repeat;
+  filter: blur(40px) saturate(1.05);
+  transform: translateZ(0);
+  animation: waveMove 10s linear infinite;
+}
+
+@keyframes waveMove {
+  0% {
+    background-position: 0% 10%, 100% 80%, 50% 50%;
+  }
+  25% {
+    background-position: 20% 30%, 80% 60%, 30% 70%;
+  }
+  50% {
+    background-position: 50% 50%, 60% 40%, 70% 30%;
+  }
+  75% {
+    background-position: 80% 70%, 40% 20%, 30% 60%;
+  }
+  100% {
+    background-position: 100% 90%, 0% 10%, 50% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* Game layout */
 .game-container {
   display: flex;
   gap: 20px;
+  align-items: flex-start;
+  padding: 40px;
 }
 
+/* Semi-transparent panels so the animated background shows through */
 .sidebar {
-  background: #222;
+  background: rgba(0,0,0,0.45);
   padding: 20px;
   border-radius: 10px;
   width: 200px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Ensure email in sidebar never overflows: keep label and value on one line
+   and truncate the email with an ellipsis when it's too long. */
+.sidebar p {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.sidebar p span {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0; /* allows flex children to shrink below content size */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Login box styling */
+.login-box {
+  background: rgba(0,0,0,0.45);
+  padding: 30px 40px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.login-box h1 { margin: 0 0 10px 0; font-size: 24px; }
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  outline: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .start-btn {
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
-  background: #00aa00;
+  background: rgba(255,255,255,0.12);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.25s, transform 0.08s;
   margin-top: 10px;
 }
 
-.start-btn:hover {
-  background: #00dd00;
-}
-
-.start-btn:active {
-  transform: scale(0.95);
-}
+.start-btn:hover { background: rgba(255,255,255,0.18); }
+.start-btn:active { transform: scale(0.98); }
 
 canvas {
-  background: #000;
-  border: 2px solid #444;
+  background: rgba(0,0,0,0.55);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+}
+
+@keyframes flashy-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
